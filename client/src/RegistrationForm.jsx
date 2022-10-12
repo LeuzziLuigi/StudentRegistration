@@ -24,7 +24,6 @@ const RegistrationForm = () => {
   };
 
   const getAvailableCourses = () => {
-    console.log(year);
     Axios.get('http://localhost:3001/getAvailableCourses', {
         params: { year : year }
     }).then((response) => {
@@ -55,23 +54,29 @@ const RegistrationForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label>Year:</label>
-        <input 
-          type="text" 
-          required 
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-        />
-        <label>Course:</label>
-        <select
-          value={course}
-          onChange={(e) => setCourse(e.target.value)}
-        >
-          <option value=" ">select</option>
-          {courseList.map((val, key) => {
-            return <option value={val.name}>{val.name}</option>
-          })}
-        </select>
+        <div className="container">
+            <div className="item">
+                <label>Course year:</label>
+                <input 
+                type="text" 
+                required 
+                value={year}
+                onChange={(e) => setYear(e.target.value)}
+                />
+            </div>
+            <div className="item">
+                <label>Course name:</label>
+                <select
+                value={course}
+                onChange={(e) => setCourse(e.target.value)}
+                >
+                <option value=" ">select</option>
+                {courseList.map((val, key) => {
+                    return <option value={val.name}>{val.name}</option>
+                })}
+                </select>
+            </div>
+        </div>
         <label>Message to Professor:</label>
         <textarea
           value={message}
