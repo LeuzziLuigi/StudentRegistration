@@ -15,15 +15,21 @@ const db = mysql2.createConnection({
 
 
 app.post('/add', (req, res) => {
-    console.log("Hi");
     const email = req.body.email;
     const course = req.body.course;
     const year = req.body.year;
     const message = req.body.message;
 
-    db.query('INSERT INTO request (student_email, course_name, current_year, message, approved) VALUES (?,?,?,?,?)',
-            [email, course, year, message, 0],
-            (error) => { error ? console.log(error) : res.send("Request Submitted") }
+    db.query('INSERT INTO request (student_email, course_name, course_year, message, approved) VALUES (?,?,?,?,?)',
+        [email, course, year, message, 0],
+        (error) => { error ? console.log(error) : res.send("Request Submitted") }
+    );
+});
+
+app.get('/getAvailableCourses', (req, res) => {
+    const year = req.query.year;
+    db.query('SELECT name FROM course WHERE year = "' + year + '"',
+        (error, result) => { error ? console.log(error) : res.send(result) }
     );
 });
 

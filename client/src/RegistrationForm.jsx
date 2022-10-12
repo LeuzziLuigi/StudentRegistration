@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Axios from 'axios';
 
 const RegistrationForm = () => {
@@ -7,6 +7,8 @@ const RegistrationForm = () => {
   const [year, setYear] = useState('');
   const [course, setCourse] = useState('');
   const [message, setMessage] = useState('');
+
+  const [courseList, setCourseList] = useState([]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -20,6 +22,20 @@ const RegistrationForm = () => {
       console.log("success");
     });
   };
+
+  const getAvailableCourses = () => {
+    console.log(year);
+    Axios.get('http://localhost:3001/getAvailableCourses', {
+        params: { year : year }
+    }).then((response) => {
+        setCourseList(response.data);
+    });
+  };
+
+  useEffect(() => {
+    getAvailableCourses();
+    console.log(year);
+  }, [year]);
 
   return (
     <div className="RegistrationForm">
@@ -52,8 +68,9 @@ const RegistrationForm = () => {
           onChange={(e) => setCourse(e.target.value)}
         >
           <option value=" ">select</option>
-          <option value="MATH101">MATH101</option>
-          <option value="CSCI101">CSCI101</option>
+          {courseList.map((val, key) => {
+            return <option value={val.name}>{val.name}</option>
+          })}
         </select>
         <label>Message to Professor:</label>
         <textarea
