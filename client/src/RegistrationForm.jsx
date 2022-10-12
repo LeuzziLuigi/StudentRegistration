@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Axios from 'axios';
 
 const RegistrationForm = () => {
   const [fullName, setFullName] = useState('');
@@ -10,7 +11,15 @@ const RegistrationForm = () => {
   const submitForm = (e) => {
     e.preventDefault();
     console.log(fullName + " " + email + " " + year + " " + course + " " + message);
-  }
+    Axios.post("http://localhost:3001/add", {
+      email : email,
+      course : course,
+      year : year,
+      message : message
+    }).then(() => {
+      console.log("success");
+    });
+  };
 
   return (
     <div className="RegistrationForm">

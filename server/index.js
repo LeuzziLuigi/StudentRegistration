@@ -1,8 +1,12 @@
 const express = require('express');
 const app = express();
-const mysql = require("mysql");
+const mysql2 = require("mysql2");
+const cors = require('cors');
 
-const db = mysql.createConnection({
+app.use(cors());
+app.use(express.json());
+
+const db = mysql2.createConnection({
     user: "root",
     host: "localhost",
     password: "password",
@@ -19,7 +23,7 @@ app.post('/add', (req, res) => {
 
     db.query('INSERT INTO request (student_email, course_name, current_year, message, approved) VALUES (?,?,?,?,?)',
             [email, course, year, message, 0],
-            (error, result) => { error ? console.log(error) : result.send("Request Submitted"); }
+            (error) => { error ? console.log(error) : res.send("Request Submitted") }
     );
 });
 
