@@ -33,7 +33,6 @@ const RegistrationForm = () => {
 
   useEffect(() => {
     getAvailableCourses();
-    console.log(year);
   }, [year]);
 
   return (
